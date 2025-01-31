@@ -1,0 +1,16 @@
+{
+  "name": "blogify",
+  "version": "1.0.0",
+  "description": "a simple api for blogs",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "rahul",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  }
+}
