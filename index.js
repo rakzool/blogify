@@ -1,44 +1,39 @@
-require('dotenv').config();
-
+require("dotenv").config();
 const express = require("express");
 
+const {getBlogs,saveBlog} = require('./modules/blogDataHandler');
+const { createBlog } = require("./modules/createBlog");
+const { getBlogByID } = require("./modules/getBlogByID");
+const { deleteBlogs } = require("./modules/deleteBlogs");
+const { updateBlog } = require("./modules/updateBlog");
+const { authenticateUser } = require("./modules/middleware");
+ 
+const PORT = process.env.PORT;
 const app = express();
 
 app.use(express.json());
-const PORT = process.env.PORT;
-const clientID = process.env.CLIENTID;
-const hashkey = process.env.HASHKEY
- 
+app.use(authenticateUser);
 
- app.use(auth);
+app.get("/",(req,res)=>{
+ res.status(200);
+ res.json({statusCode:200,status:"OK",messgae : "welcome to Blogify"});
+ res.end();
+})
 
-app.get('/',(req,res)=>{
-  res.end("Hello world !!!");
-  console.log(clientID,hashkey)
+app.get("/getBlogs",(req,res)=>{
+  const path = getBlogs();
+  res.json(path);
+  res.end();
 });
 
-app.get('/about',(req,res)=>{
-    res.status(200);
-    res.send("<h1>Hello from about page</h1>");
-    res.end();
-  });
+app.post("/createBlog",createBlog);
 
-  app.post('/data',auth,(req,res)=>{
-      console.log(req.body);
-      res.end("data recived");
-  })
+app.get("/getBlogs/:id",getBlogByID);
 
-  function auth (req,res,next) {
-    const {name} = req.body;
-    if(name === "rahul"){
-        next();
-    }
-    else{
-        res.status(401);
-        res.end("message: un-authorised user");
-    }
-  }
+app.delete("/deleteBlog/:id",deleteBlogs);
 
-app.listen(PORT,() => {
-    console.log(`listening on express server on port ${PORT}`);
-});
+app.put("/updateBlog/:id",updateBlog);
+
+app.listen(PORT,()=>{
+  console.log(`Server running on port ${PORT} ... !!!!`);
+})

@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "title": "First blog",
+    "message": "This is the first blog"
+  },
+  {
+    "id": 2,
+    "title": "Second Blog",
+    "message": "this is second blog"
+  }
+]
